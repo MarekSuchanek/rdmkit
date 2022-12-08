@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Jekyll environment to build a page'
-        default: 'production'
+        description: 'Jekyll environment'
+        default: 'development'
         required: true
         type: choice
         options:
@@ -45,7 +45,7 @@ jobs:
         id: name
         run: |
           JEKYLL_ENV=${{ github.event.inputs.environment }}
-          echo "{jekyll_env}={${JEKYLL_ENV:-'production'}}" >> $GITHUB_OUTPUT
+          echo "jekyll_env=${JEKYLL_ENV:-production}" >> $GITHUB_OUTPUT
 
       - name: Install dependencies
         run: |
@@ -58,12 +58,6 @@ jobs:
         env:
           PAGES_REPO_NWO: ${{ github.repository }}
           JEKYLL_ENV: ${{ steps.name.outputs.jekyll_env }}
-          GITHUB_REPO: ${{ github.repository }}
-          GITHUB_REPO_URL: ${{ github.server_url }}/${{ github.repository }}
-          GITHUB_COMMIT: ${{ github.sha }}
-          GITHUB_COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
-          GITHUB_BRANCH: ${{ github.ref_name }}
-          GITHUB_BRANCH_URL: ${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

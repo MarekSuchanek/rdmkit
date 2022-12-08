@@ -4,8 +4,12 @@ install:
 
 .PHONY: dev
 dev:
-	bundle exec jekyll serve --livereload --incremental
+	JEKYLL_ENV=development bundle exec jekyll serve --livereload --incremental
 
 .PHONY: build
 build:
-	bundle exec jekyll build
+	JEKYLL_ENV=production bundle exec jekyll build
+
+.PHONY: clean
+clean:
+	rm -rf _site .bundle .jekyll-cache .jekyll-metadata .sass-cache vendor
